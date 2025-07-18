@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Date With Me?</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background-image: url("rose.jpg");
+      background-size: cover;
+      background-position: center;
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    h2 {
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .button-container {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      width: 100%;
+      max-width: 600px;
+      padding: 0 20px;
+    }
+
+    .yes-box, .no-box {
+      flex: 1;
+      height: 150px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .yes-box {
+      background-color: #d1c4e9;
+    }
+
+    .no-box {
+      background-color: #ffcdd2;
+    }
+
+    button {
+      padding: 15px 30px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      color: white;
+      cursor: pointer;
+    }
+
+    #yesBtn {
+      background-color: #6200ea;
+    }
+
+    #runawayBtn {
+      background-color: #e53935;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition: top 0.2s, left 0.2s;
+    }
+
+    #fullscreenVideo {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ✅ Move audio here -->
+  <audio id="bgMusic" autoplay loop>
+    <source src="roman.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
+  </audio>
+
+  <h2>Do you want to date with me girl?</h2>
+
+  <div class="button-container">
+    <div class="yes-box">
+      <button id="yesBtn">YES</button>
+    </div>
+    <div class="no-box" id="noBox">
+      <button id="runawayBtn">NO</button>
+    </div>
+  </div>
+
+  <video id="fullscreenVideo" src="damn.mp4" controls></video>
+
+  <script>
+    const button = document.getElementById("runawayBtn");
+    const box = document.getElementById("noBox");
+
+    function moveButton() {
+      const maxX = box.clientWidth - button.offsetWidth;
+      const maxY = box.clientHeight - button.offsetHeight;
+
+      const newX = Math.random() * maxX;
+      const newY = Math.random() * maxY;
+
+      button.style.left = `${newX}px`;
+      button.style.top = `${newY}px`;
+    }
+
+    button.addEventListener("mouseenter", moveButton);
+    button.addEventListener("touchstart", function (e) {
+      e.preventDefault();
+      moveButton();
+    });
+
+    document.getElementById("yesBtn").addEventListener("click", () => {
+      const video = document.getElementById("fullscreenVideo");
+      video.style.display = "block";
+      video.requestFullscreen().catch(() => {
+        video.style.position = "fixed";
+        video.style.zIndex = "99";
+      });
+      video.play();
+    });
+
+    // ✅ Start music after user interaction if blocked
+    document.addEventListener('click', () => {
+      const audio = document.getElementById("bgMusic");
+      if (audio.paused) {
+        audio.play().catch(() => {
+          console.log("Autoplay blocked.");
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>
